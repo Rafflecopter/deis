@@ -13,6 +13,11 @@ except:
 # base64-encoded SSH private key to facilitate current version of "deis run"
 SSH_PRIVATE_KEY = """{{ if exists "/deis/platform/sshPrivateKey" }}{{ getv "/deis/platform/sshPrivateKey" }}{{ else }}""{{end}}"""
 
+# plaintext email, username, and password for logging into private docker registries  
+DOCKER_EMAIL = '{{ if exists "/deis/controller/dockerEmail" }}{{ getv "/deis/controller/dockerEmail" }}{{ else }}{{ end }}'
+DOCKER_USERNAME = '{{ if exists "/deis/controller/dockerUsername" }}{{ getv "/deis/controller/dockerUsername" }}{{ else }}{{ end }}'
+DOCKER_PASSWORD = '{{ if exists "/deis/controller/dockerPassword" }}{{ getv "/deis/controller/dockerPassword" }}{{ else }}{{ end }}'
+
 # platform domain must be provided
 DEIS_DOMAIN = '{{ getv "/deis/platform/domain" }}'
 

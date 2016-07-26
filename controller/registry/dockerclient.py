@@ -9,6 +9,7 @@ from django.conf import settings
 from rest_framework.exceptions import PermissionDenied
 from simpleflock import SimpleFlock
 import docker
+import os.path
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +21,11 @@ class DockerClient(object):
 
     def __init__(self):
         self.client = docker.Client(version='auto')
+        if settings.DOCKER_EMAIL.strip() and settings.DOCKER_PASSWORD.strip() and settings.DOCKER_USERNAME.strip():
+            logger.info("Found docker creds, logging in {}".format(settings.DOCKER_USERNAME))
+            self.client.login(username=settings.DOCKER_USERNAME, password=settings.DOCKER_PASSWORD, email=settings.DOCKER_EMAIL, registry='https://index.docker.io/v1/')
+        else:
+            logger.info("No docker creds found. You cannot use any private docker images without extra configuration.")
         self.registry = settings.REGISTRY_HOST + ':' + str(settings.REGISTRY_PORT)
 
     def publish_release(self, source, config, target, deis_registry):

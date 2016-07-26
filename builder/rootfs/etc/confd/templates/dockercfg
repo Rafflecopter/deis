@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+DOCKER_USERNAME="{{ getv "/deis/controller/dockerUsername" }}"
+DOCKER_PASSWORD="{{ getv "/deis/controller/dockerPassword" }}"
+DOCKER_EMAIL="{{ getv "/deis/controller/dockerEmail" }}"
+
+DOCKER_AUTH=$(echo "$DOCKER_USERNAME:$DOCKER_PASSWORD" | base64)
+
+mkdir -p /root/.docker
+
+echo '{
+    "auths": {
+        "https://index.docker.io/v1/": {
+            "auth":"'"${DOCKER_AUTH:0:52}"'",
+            "email":"'"$DOCKER_EMAIL"'"
+        }
+    }
+}' > /root/.docker/config.json

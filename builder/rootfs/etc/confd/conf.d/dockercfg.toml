@@ -1,0 +1,12 @@
+[template]
+src   = "dockercfg"
+dest  = "/home/git/dockercfg_setup.sh"
+uid = 1000
+gid = 1000
+mode  = "0606"
+keys = [
+  "/deis/controller/dockerEmail",
+  "/deis/controller/dockerUsername",
+  "/deis/controller/dockerPassword",
+]
+reload_cmd = "bash /home/git/dockercfg_setup.sh"
